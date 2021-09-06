@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usxoj.mapper.ProblemMapper">
+    <select id="findProblemByProblemList" resultType="Problem">
+        select p.id, p.uuid, p.title, p.type, p.mark
+        from problem p, problem_problemlist pp, problemlist_course pc
+        where #{courseUuid} = pc.course_uuid
+        and pc.problem_list_uuid = pp.problem_list_uuid
+        and pp.problem_list_uuid like "%"#{problemListUuid}"%"
+        and pp.problem_uuid = p.uuid
+        and p.title like "%"#{search}"%"
+    </select>
+
+    <delete id="delete">
+        delete from problem_problemlist where problem_list_uuid = #{problemListUuid} and problem_uuid = #{problemUuid}
+    </delete>
+
+    <insert id="insertProTOList">
+        insert into  problem_problemlist(problem_uuid,problem_list_uuid) values (#{problemUuid},#{problemListUuid})
+    </insert>
+
+    <select id="isExist" resultType="ProblemProblemList">
+        select * from problem_problemlist where #{problemUuid} = problem_uuid and #{problemListUuid} = problem_list_uuid
+    </select>
+
+    <insert id="saveAnswer" parameterType="ProblemAnswer">
+        insert into problem_answer(problem_uuid, input_a, output_a, input_b, output_b, input_c, output_c, input_d, output_d, input_e, output_e)
+        values (#{problemUuid}, #{inputA}, #{outputA}, #{inputB}, #{outputB}, #{inputC}, #{outputC}, #{inputD}, #{outputD}, #{inputE}, #{outputE})
+    </insert>
+
+    <select id="findAnswerByUuid" parameterType="string" resultType="ProblemAnswer">
+        select * from problem_answer where #{problemUuid} = problem_uuid;
+    </select>
+
+    <update id="updateText" parameterType="ProblemAnswer">
+        update problem_answer set
+        input_a = #{inputA}, output_a = #{outputA},
+        input_b = #{inputB}, output_b = #{outputB},
+        input_c = #{inputC}, output_c = #{outputC},
+        input_d = #{inputD}, output_d = #{outputD},
+        input_e = #{inputE}, output_e = #{outputE}
+        where id = #{id}
+    </update>
+</mapper>

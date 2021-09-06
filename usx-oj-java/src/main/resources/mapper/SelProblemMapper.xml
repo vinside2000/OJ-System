@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usxoj.mapper.SelProblemMapper">
+    <select id="findProblemByProblemList" resultType="Problem">
+        select s.id, s.uuid, s.title, s.type, s.mark
+        from selproblem s, selproblem_problemlist sp, problemlist_course pc
+        where #{courseUuid} = pc.course_uuid
+        and pc.problem_list_uuid = sp.problem_list_uuid
+        and sp.problem_list_uuid like "%"#{problemListUuid}"%"
+        and sp.selproblem_uuid = s.uuid
+        and s.title like "%"#{search}"%"
+    </select>
+
+    <delete id="delete">
+        delete from selproblem_problemlist where problem_list_uuid = #{problemListUuid} and selproblem_uuid = #{selProblemUuid}
+    </delete>
+
+    <insert id="insertProTOList">
+        insert into  selproblem_problemlist(selproblem_uuid,problem_list_uuid) values (#{selProblemUuid},#{problemListUuid})
+    </insert>
+
+    <select id="isExist" resultType="SelproblemProblemlist">
+        select * from selproblem_problemlist where #{selProblemUuid} = selproblem_uuid and #{problemListUuid} = problem_list_uuid
+    </select>
+</mapper>

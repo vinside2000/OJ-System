@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usxoj.mapper.TeacherMapper">
+    <select id="findCourseFormTeacher" parameterType="string" resultMap="course">
+        select c.course_name, c.course_img, c.course_date
+        from teacher t, course c, teacher_course tc
+        where #{teacherUuid} = tc.teacher_uuid
+        and tc.course_uuid = c.course_uuid
+    </select>
+    <resultMap id="course" type="Teacher">
+        <collection property="courses" ofType="Course" column="id">
+            <id property="courseUuid" column="course_uuid"/>
+            <result property="courseName" column="course_name"/>
+            <result property="courseImg" column="course_img"/>
+            <result property="courseDate" column="course_date"/>
+        </collection>
+    </resultMap>
+
+</mapper>

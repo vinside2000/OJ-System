@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usxoj.mapper.CourseMapper">
+    <select id="findCourseByTeacher" parameterType="string" resultType="Course">
+        select c.course_uuid, c.course_name, c.course_img, c.course_date
+        from course c, teacher_course tc
+        where #{teacherUuid} = tc.teacher_uuid
+        and tc.course_uuid = c.course_uuid
+        order by c.course_date DESC
+    </select>
+
+    <select id="findAllCourseWithoutTeacher" parameterType="string" resultType="Course">
+        select * from course c where c.course_uuid not in
+        (select tc.course_uuid from teacher_course tc where tc.teacher_uuid = #{teacherUuid})
+        order by c.course_date DESC
+    </select>
+
+</mapper>

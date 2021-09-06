@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usxoj.mapper.ProblemListMapper">
+    <select id="findProblemListByCourse" resultType="ProblemList">
+        select pl.uuid, pl.name, pl.author, pl.start_date, pl.end_date
+        from problem_list pl, problemlist_course plc
+        where #{courseUuid} = plc.course_uuid
+        and plc.problem_list_uuid = pl.uuid
+        and pl.name like "%"#{search}"%"
+    </select>
+
+    <select id="count" parameterType="string" resultType="int">
+    SELECT COUNT(p.uuid) num from problem p,problem_problemlist pp
+    WHERE pp.problem_list_uuid = #{problemListUuid}
+    and p.uuid = pp.problem_uuid
+    </select>
+
+</mapper>

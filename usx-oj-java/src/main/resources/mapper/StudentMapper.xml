@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usxoj.mapper.StudentMapper">
+    <insert id="copy">
+        INSERT INTO student SELECT * FROM student_excel;
+    </insert>
+    <select id="findStudentByCourseByPage" resultType="Student">
+        select * from student s,student_course sc
+        where #{courseUuid} = sc.course_uuid
+        and sc.student_uuid = s.uuid
+        and s.name like "%"#{search}"%"
+    </select>
+
+</mapper>
