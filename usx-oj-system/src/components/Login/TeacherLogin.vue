@@ -40,8 +40,9 @@
                 if (value === '') {
                     callback(new Error('请输入验证码'))
                 } else if (value !== this.teaIdentifyCode) {
-                    console.log('teaVerifyCode:', value)
+                    // console.log('teaVerifyCode:', value)
                     callback(new Error('验证码不正确'))
+                    this.teaRefreshCode();
                 } else {
                     callback()
                 }
@@ -79,14 +80,14 @@
                 for (let i = 0; i < l; i++) {
                     this.teaIdentifyCode += this.teaIdentifyCodes[this.randomNum(0, this.teaIdentifyCodes.length)]
                 }
-                console.log("tea:" +this.teaIdentifyCode)
+                // console.log("tea:" +this.teaIdentifyCode)
             },
             //提交登录验证表单
             teacherLogin(formName){
                 this.$refs[formName].validate((valid) => {
                   if (valid){
                       request.post("/tea/login",this.teaLoginForm).then(res => {
-                          console.log(res);
+                          // console.log(res);
                           if (res.code === '0'){
                               this.$message({
                                   type: 'success',
@@ -102,7 +103,7 @@
                           }
                       })
                   }else {
-                      console.log('error submit!!');
+                      // console.log('error submit!!');
                       return false;
                   }
                 })

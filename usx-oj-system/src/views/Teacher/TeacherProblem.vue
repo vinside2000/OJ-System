@@ -607,7 +607,7 @@
     // import "tinymce/plugins/textcolor";
     import request from "../../utils/request";
     import E from 'wangeditor'
-    import CodeMirror from "../OJ/CodeMirror";
+    import CodeMirror from "../../components/OJ/CodeMirror";
 
     let editor;
 

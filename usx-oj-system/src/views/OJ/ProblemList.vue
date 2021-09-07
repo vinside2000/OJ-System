@@ -1,25 +1,54 @@
 <template>
-    <div >
+
+    <div style="padding: 20px">
+
+        <!--搜索框-->
+        <el-input
+                placeholder="请输入题集名称"
+                v-model="search"
+                type="text"
+                clearable
+                style="width: 300px;margin-bottom: 20px"
+        >
+            <template #append>
+                <el-button icon="el-icon-search" @click="load"></el-button>
+            </template>
+        </el-input>
+
+        <!--    题集展示-->
         <el-table
                 :data="tableData"
-                stripe
-                style="width: 98%;margin: 20px;"
-                highlight-current-row="true"
+                border
+                style="width: 100%"
                 :cell-style="cellStyle"
-                @cell-click="goto"
-            >
+                @cell-click="toProblem">
+            <el-table-column
+                    prop="uuid"
+                    label="编号"
+                    v-if="false">
+            </el-table-column>
+            <el-table-column
+                    type="index"
+                    align="center"
+                    :index="indexFn(0)"
+                    label="序号"
+                    width="55">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="题集名称">
+            </el-table-column>
             <el-table-column
                     prop="startDate"
                     label="开始时间"
-                    sortable
-                    width="300px"
-            >
+                    width="150"
+                    sortable>
             </el-table-column>
             <el-table-column
+                    prop="endDate"
                     label="结束时间"
-                    sortable
-                    width="500px"
-            >
+                    width="150"
+                    sortable>
                 <template #default="scope">
                     <span v-if="scope.row.endDate < currentTime" style="color: red">{{scope.row.endDate}}</span>
                     <span v-else>{{scope.row.endDate}}</span>
@@ -27,69 +56,51 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="problem"
-                    label="题集"
-            >
+                    prop="proCount"
+                    label="试题数量"
+                    width="150">
             </el-table-column>
             <el-table-column
-                    prop="status"
-                    label="状态">
+                    prop="score"
+                    label="得分"
+                    width="150">
             </el-table-column>
         </el-table>
     </div>
 
-    <div class="block" style="margin: 20px 20px;">
-        <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[10, 20]"
-                :page-size="10"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="40">
-        </el-pagination>
-    </div>
+<!--    <div class="block" style="margin: 20px 20px;">-->
+<!--        <el-pagination-->
+<!--                @size-change="handleSizeChange"-->
+<!--                @current-change="handleCurrentChange"-->
+<!--                :current-page="currentPage"-->
+<!--                :page-sizes="[10, 20]"-->
+<!--                :page-size="10"-->
+<!--                layout="total, sizes, prev, pager, next, jumper"-->
+<!--                :total="40">-->
+<!--        </el-pagination>-->
+<!--    </div>-->
 
 </template>
 
 <script>
+    import request from "../../utils/request";
+
     export default {
         name: "ProblemList",
         data(){
             return {
-                tableData: [{
-                    startDate: '2021-05-02',
-                    endDate: '2021-07-01',
-                    problem: 'python简介',
-                    status: '已开启'
-                }, {
-                    startDate: '2021-05-04',
-                    endDate: '2021-07-02',
-                    problem: '初识Python',
-                    status: '已开启'
-                }, {
-                    startDate: '2021-05-01',
-                    endDate: '2021-07-16',
-                    problem: '基本语法',
-                    status: '已关闭'
-                }, {
-                    startDate: '2021-05-03',
-                    endDate: '2021-08-20',
-                    problem: '数组',
-                    status: '已关闭'
-                }],
+                search: '',
+                courseUuid: '',
+                tableData: [{}],
                 currentPage: 1,
                 currentTime: ''
             }
         },
         created:
             function() {
-            // var aData = new Date();
-            // console.log(aData) //Wed Aug 21 2019 10:00:58 GMT+0800 (中国标准时间)
-            //
-            // this.value =
-            //     aData.getFullYear() + "-" + (aData.getMonth() + 1) + "-" + aData.getDate();
-            // console.log(this.value) //2019-8-20
+                let courseUuidJson = sessionStorage.getItem("courseUuid");
+                this.courseUuid = courseUuidJson;
+
                 var date = new Date();
                 var year = date.getFullYear();
                 var month = date.getMonth() + 1;				//月
@@ -105,15 +116,38 @@
                 var currentdate = year + "-" + month + "-" + dateDate ;
 
                 this.currentTime = currentdate;
-                console.log(this.currentTime)
+                // console.log(this.currentTime)
+                this.load();
         },
         methods:{
-            goto(row,column,event,cell){
-                console.log(row);
-                if (column.property === "problem"){
-                    this.$router.push("/proLay/problem")
+            //加载题集
+            load(){
+                request.get("/proList", {
+                    params:{
+                        search:this.search,
+                        courseUuid: this.courseUuid
+                    }
+                }).then(res => {
+                    this.tableData = res.data
+                })
+            },
+
+            //表格序号自增
+            indexFn(index) {
+                index = index + 1
+                return index
+            },
+
+            //跳转到题集下的题目
+            toProblem(row, column, event, cell) {
+                // console.log(row.uuid);
+                if (column.property === "name") {
+                    sessionStorage.setItem("proListUuid",row.uuid);
+                    sessionStorage.setItem("proListName",row.name);
+                    this.$router.push("/proLay/problem");
                 }
             },
+
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
             },
@@ -121,7 +155,7 @@
                 console.log(`当前页: ${val}`);
             },
             cellStyle({row, column, rowIndex, columnIndex}){
-                if (columnIndex === 2){
+                if (columnIndex === 1){
                     return "cursor:pointer;padding:20px 0;color:rgb(18,157,250);"
                 }
             } ,

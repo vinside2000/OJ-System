@@ -33,14 +33,7 @@
         name: "ProblemAside",
         data(){
             return{
-                spanData:[
-                    {
-                        proIndex: '1'
-                    },
-                    {
-                        proIndex: '2'
-                    },
-                ],
+                spanData:[{proIndex: '1'}],
             }
         },
         methods:{

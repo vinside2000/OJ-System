@@ -128,7 +128,7 @@
             let teaJson = sessionStorage.getItem("teacher");//从session中取得当前账号的信息
             let uuid = JSON.parse(teaJson).uuid;
             this.teacherUuid = uuid;
-            console.log(uuid)
+            // console.log(uuid)
             this.load(uuid)
         },
         methods:{

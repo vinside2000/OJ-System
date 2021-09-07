@@ -157,7 +157,7 @@
 
 <script>
     import {ElMessage} from "element-plus";
-    import TeacherProblem from "../../components/Teacher/TeacherProblem";
+    import TeacherProblem from "./TeacherProblem";
     import CourseAside from "../../components/Course/CourseAside";
     import request from "../../utils/request";
 

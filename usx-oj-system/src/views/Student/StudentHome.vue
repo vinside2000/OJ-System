@@ -7,13 +7,13 @@
             <p style="display: block;margin-top: 20px">我的课程</p>
             <div class="grid-content bg-purple"  v-for="list in courseList">
                 <el-col :span="20">
-                    <div @click="toProList" style="margin-top: 20px;width: 320px;cursor: pointer;height: 250px">
+                    <div @click="toProList(list.courseUuid)" style="margin-top: 20px;width: 320px;cursor: pointer;height: 250px">
                         <el-card :body-style="{ padding: '0px'}" shadow="hover">
-                            <img :src="list.imgUrl" class="image" style="width: 320px;height: 180px">
+                            <img :src="list.courseImg" class="image" style="width: 320px;height: 180px">
                             <div style="padding: 10px;">
-                                <span>{{list.course}}</span>
+                                <span>{{list.courseName}}</span>
                                 <div class="bottom">
-                                    <time class="time">{{list.setDate}}</time>
+                                    <time class="time">{{list.courseDate}}</time>
                                 </div>
                             </div>
                         </el-card>
@@ -28,38 +28,33 @@
 </template>
 
 <script>
+    import request from "../../utils/request";
+
     export default {
         name: "StudentHome",
         data() {
             return {
-                courseList:[
-                    {
-                        imgUrl: 'https://python123.io/images/7a/01/32a07f0cede6bceda81628ad36c6.jpg',
-                        setDate: '2021-06-05',
-                        course: 'Python编程技术',
-                    },
-                    {
-                        imgUrl: require('@/assets/img/login.jpg'),
-                        setDate: '2021-06-05',
-                        course: '高级语言',
-                    },
-                    {
-                        imgUrl: require('@/assets/img/login.jpg'),
-                        setDate: '2021-06-05',
-                        course: '高级语言',
-                    },
-                    {
-                        imgUrl: require('@/assets/img/login.jpg'),
-                        setDate: '2021-06-05',
-                        course: '高级语言',
-                    },
-                ],
-
+                courseList:[{}],
             };
         },
+        created() {
+            let stuJson = sessionStorage.getItem("student");//从session中取得当前账号的信息
+            let number = JSON.parse(stuJson).number;
+            // this.teacherUuid = uuid;
+            // console.log(number)
+            this.load(number)
+        },
         methods:{
-            toProList(){
-              this.$router.push('/stuLay/proList')
+            //加载课程
+            load(number){
+                request.get("/course/stu/"+ number).then(res => {
+                    console.log(res.data);
+                    this.courseList = res.data;
+                })
+            },
+            toProList(uuid){
+                sessionStorage.setItem("courseUuid",uuid);
+                this.$router.push('/stuLay/proList');
             },
         }
     }

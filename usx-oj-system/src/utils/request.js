@@ -16,10 +16,10 @@ request.interceptors.request.use(config => {
 
     // config.headers['token'] = user.token;  // 设置请求头
 
-    let teaJSON =  sessionStorage.getItem("teacher");
-    if (!teaJSON){
-        router.push("/")
-    }
+    // let teaJSON =  sessionStorage.getItem("teacher");
+    // if (!teaJSON){
+    //     router.push("/")
+    // }
     return config
 }, error => {
     return Promise.reject(error)

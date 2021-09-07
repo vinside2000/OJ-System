@@ -12,7 +12,7 @@
         <el-menu-item index="2" style="margin-left: 100px">我的成绩</el-menu-item>
         <el-menu-item index="3" style="margin-left: 100px">讨论</el-menu-item>
         <el-submenu index="4" style="float: right;margin-right: 200px">
-            <template #title>用户</template>
+            <template #title>{{studentName}}</template>
 
             <el-menu-item index="2-1" @click="changePassword()">修改密码</el-menu-item>
 
@@ -80,6 +80,7 @@
                 }
             };
             return{
+                studentName:'',
                 activeIndex: '1',
                 dialogFormVisible: false,
                 formLabelWidth: '100px',
@@ -101,8 +102,14 @@
                 }
             }
         },
+        created() {
+            let stuJson = sessionStorage.getItem("student");
+            // console.log(JSON.parse(stuJson).name);
+            this.studentName = JSON.parse(stuJson).name;
+        },
         methods:{
             logout(){
+                sessionStorage.clear();
                 this.$router.push("/")
             },
             submitForm(formName) {

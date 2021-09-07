@@ -13,7 +13,7 @@ import TeacherCourse from "../views/Teacher/TeacherCourse";
 import StudentList from "../views/Teacher/StudentList";
 import ProblemLibrary from "../views/Teacher/ProblemLibrary";
 import CourseLayout from "../layout/CourseLayout";
-import TeacherProblem from "../components/Teacher/TeacherProblem";
+import TeacherProblem from "../views/Teacher/TeacherProblem";
 import TeacherScore from "../views/Teacher/TeacherScore";
 
 

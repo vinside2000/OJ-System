@@ -31,6 +31,7 @@
 
 <script>
     import SIdentify from "./StudentIdentify";
+    import request from "../../utils/request";
     export default {
         name: "StudentLogin",
         components:{SIdentify},
@@ -40,8 +41,9 @@
                 if (value === '') {
                     callback(new Error('请输入验证码'))
                 } else if (value !== this.stuIdentifyCode) {
-                    console.log('stuVerifyCode:', value)
+                    // console.log('stuVerifyCode:', value)
                     callback(new Error('验证码不正确'))
+                    this.stuRefreshCode();
                 } else {
                     callback()
                 }
@@ -79,17 +81,32 @@
                 for (let i = 0; i < l; i++) {
                     this.stuIdentifyCode += this.stuIdentifyCodes[this.randomNum(0, this.stuIdentifyCodes.length)]
                 }
-                console.log("stu:" +this.stuIdentifyCode)
+                // console.log("stu:" +this.stuIdentifyCode)
             },
             studentLogin(){
                 this.$refs.stuLoginForm.validate((valid) => {
                     if (valid) {
-
+                        request.post("/stu/login",this.stuLoginForm).then(res => {
+                            // console.log(res);
+                            if (res.code === '0'){
+                                this.$message({
+                                    type: 'success',
+                                    message: '登录成功'
+                                })
+                                sessionStorage.setItem("student",JSON.stringify(res.data))
+                                this.$router.push("/stuLay");
+                            }else{
+                                this.$message({
+                                    type: 'error',
+                                    message: res.msg
+                                })
+                            }
+                        })
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
-                });this.$router.push("/stuLay");
+                });
             },
 
         }

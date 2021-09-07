@@ -1,98 +1,86 @@
 <template>
-    <div >
-        <el-table
-                :data="tableData"
-                stripe
-                style="width: 98%;margin: 20px;"
-                highlight-current-row="true"
-                :cell-style="cellStyle"
-                @cell-click="goto"
-            >
-            <el-table-column
-                    prop="status"
-                    label=""
-                    width="50px"
-                    id="statusRows"
-            >
-                <template #default="scope">
-                    <span v-if="scope.row.status ==='1'" class="el-icon-check"></span>
-                    <span v-else></span>
-<!--                    <span>{{scope.row.status}}</span>-->
-                </template>
-            </el-table-column>
-            <el-table-column
-                    prop="index"
-                    label="序号"
-                    width="200px"
-            >
-            </el-table-column>
-            <el-table-column
-                    prop="title"
-                    label="标题"
-                    width="600px"
-            >
-            </el-table-column>
-            <el-table-column
-                    prop="proScore"
-                    label="分数"
-                    width="200px"
-            >
-            </el-table-column>
-            <el-table-column
-                    prop="myScore"
-                    label="我的得分">
-            </el-table-column>
-        </el-table>
-    </div>
+    <!--    主界面题目展示-->
+    <el-table
+            :data="tableData"
+            border
+            style="width: 100%"
+            :cell-style="cellStyle"
+            @cell-click="showProDetail">
+        <el-table-column
+                prop="id"
+                label="编号"
+                width="150"
+                sortable>
+        </el-table-column>
+        <!--        <el-table-column-->
+        <!--                prop="date"-->
+        <!--                label="创建日期"-->
+        <!--                width="150"-->
+        <!--                sortable>-->
+        <!--        </el-table-column>-->
+        <el-table-column
+                prop="title"
+                label="标题">
+        </el-table-column>
+        <el-table-column
+                prop="mark"
+                label="分值"
+                width="150">
+        </el-table-column>
+        <el-table-column
+                prop="score"
+                label="我的得分"
+                width="150">
+        </el-table-column>
+    </el-table>
 
-    <div class="block" style="margin: 20px 20px">
+    <!--    分页控件-->
+    <div style="float: left;margin-top: 20px">
         <el-pagination
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="currentPage"
-                :page-sizes="[10, 20]"
-                :page-size="10"
+                :page-sizes="[10,20]"
+                :page-size="pageSize"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="40">
+                :total="total">
         </el-pagination>
     </div>
 </template>
 
 <script>
+    import request from "../../utils/request";
+
     export default {
         name: "Problem",
         data(){
             return{
-                tableData: [{
-                    status: '1',
-                    index: '1',
-                    title: 'a+b',
-                    proScore: '10',
-                    myScore: '10'
-                }, {
-                    status: '0',
-                    index: '2021-05-04',
-                    title: '2021-07-02',
-                    proScore: '10',
-                    myScore: '10'
-                }, {
-                    status: '0',
-                    index: '2021-05-01',
-                    title: '2021-07-16',
-                    proScore: '10',
-                    myScore: '10'
-                }, {
-                    status: '0',
-                    index: '2021-05-03',
-                    title: '2021-07-20',
-                    proScore: '10',
-                    myScore: '10'
-                }],
+                tableData: [{}],
                 currentPage: 1,
 
             }
         },
+        created() {
+            this.load();
+        },
         methods:{
+            //加载程序题
+            load(){
+                request.get("/pro", {
+                    params: {
+                        pageNum: this.currentPage,
+                        pageSize: this.pageSize,
+                        search: this.search,
+                        problemListUuid: sessionStorage.getItem("proListUuid"),
+                        courseUuid: sessionStorage.getItem("courseUuid")
+                    }
+                }).then(res => {
+                    this.tableData = res.data.records;
+                    this.total = res.data.total;
+                    this.currentPage = res.data.current;
+                })
+            },
+
             handleSizeChange(val) {
                 // console.log(`每页 ${val} 条`);
             },
@@ -101,11 +89,11 @@
             },
             cellStyle({row, column, rowIndex, columnIndex}){
                 // console.log(row.status)
-                if (columnIndex === 2){
+                if (columnIndex === 1){
                     return "cursor:pointer;color:rgb(18,157,250);"
                 }
             } ,
-            goto(row,column,event,cell){
+            showProDetail(row,column,event,cell){
                 // console.log(row);
                 if (column.property === "title"){
                     this.$router.push("/proLay/proDel")
