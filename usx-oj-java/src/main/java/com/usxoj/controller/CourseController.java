@@ -38,13 +38,21 @@ public class CourseController {
         return Result.success();
     }
 
+    //根据教师用户ID，查询该账户下的所有课程
     @GetMapping("/{uuid}")
     public Result<?> findCourseByTeacher(@PathVariable String uuid){
         return Result.success(courseService.findCourseByTeacher(uuid));
     }
 
+    //根据教师用户ID，查询未绑定在该教师账户下的所有课程
     @GetMapping("/all/{uuid}")
     public Result<?> findAllCourseWithoutTeacher(@PathVariable String uuid){
         return Result.success(courseService.findAllCourseWithoutTeacher(uuid));
+    }
+
+    //根据教师用户ID，查询该账户下的所有课程
+    @GetMapping("/stu/{number}")
+    public Result<?> findCourseByStudent(@PathVariable String number){
+        return Result.success(courseService.findCourseByStudent(number));
     }
 }

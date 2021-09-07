@@ -17,4 +17,13 @@
         order by c.course_date DESC
     </select>
 
+    <select id="findCourseByStudent" parameterType="string" resultType="Course">
+        select c.course_uuid, c.course_name, c.course_img, c.course_date
+        from course c, student_course sc, student s
+        where #{studentNumber} = s.number
+        and s.uuid = sc.student_uuid
+        and sc.course_uuid = c.course_uuid
+        order by c.course_date DESC
+    </select>
+
 </mapper>

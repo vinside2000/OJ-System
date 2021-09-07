@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.usxoj.entity.Student;
 import com.usxoj.entity.StudentCourse;
 import com.usxoj.entity.StudentExcel;
+import com.usxoj.entity.Teacher;
 import com.usxoj.service.StudentCourseService;
 import com.usxoj.service.StudentExcelService;
 import com.usxoj.service.StudentService;
@@ -119,5 +120,15 @@ public class StudentController {
         }
         studentService.removeByIds(uuidList);//根据主键UUID批量删除数据
         return Result.success();
+    }
+
+    //学生登录模块
+    @PostMapping("/login")
+    public Result<?> login(@RequestBody Student student){
+        Student res = studentService.getOne(Wrappers.<Student>lambdaQuery().eq(Student::getUsername,student.getUsername()).eq(Student::getPassword,student.getPassword()).last("LIMIT 1"));
+        if (res == null){
+            return Result.error("-1","用户名或密码错误");
+        }
+        return Result.success(res);
     }
 }

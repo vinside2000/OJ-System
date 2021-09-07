@@ -28,6 +28,11 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     }
 
     @Override
+    public List<Course> findCourseByStudent(String studentNumber) {
+        return courseMapper.findCourseByStudent(studentNumber);
+    }
+
+    @Override
     public List<Course> findAllCourseWithoutTeacher(String teacherUuid) {
         return courseMapper.findAllCourseWithoutTeacher(teacherUuid);
     }
