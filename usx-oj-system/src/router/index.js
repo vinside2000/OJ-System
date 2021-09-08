@@ -7,7 +7,6 @@ import ProblemDetail from "../views/OJ/ProblemDetail";
 import Problem from "../views/OJ/Problem";
 import ProblemList from "../views/OJ/ProblemList";
 import TeacherLayout from "../layout/TeacherLayout";
-import TeacherHome from "../views/Teacher/TeacherHome";
 import StudentHome from "../views/Student/StudentHome";
 import TeacherCourse from "../views/Teacher/TeacherCourse";
 import StudentList from "../views/Teacher/StudentList";
@@ -15,6 +14,7 @@ import ProblemLibrary from "../views/Teacher/ProblemLibrary";
 import CourseLayout from "../layout/CourseLayout";
 import TeacherProblem from "../views/Teacher/TeacherProblem";
 import TeacherScore from "../views/Teacher/TeacherScore";
+import SelectProblem from "../views/OJ/SelectProblem";
 
 
 const routes = [
@@ -84,7 +84,12 @@ const routes = [
         path: 'proDel',
         name: 'ProblemDetail',
         component: ProblemDetail
-      }
+      },
+      {
+        path: 'selPro',
+        name: 'SelectProblem',
+        component: SelectProblem
+      },
     ]
   },
 

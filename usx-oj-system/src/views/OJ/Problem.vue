@@ -1,9 +1,12 @@
 <template>
+
+    <el-page-header @back="goBack" content="我的题集"> </el-page-header>
+
     <!--    主界面题目展示-->
     <el-table
             :data="tableData"
             border
-            style="width: 100%"
+            style="width: 100%;margin-top: 20px"
             :cell-style="cellStyle"
             @cell-click="showProDetail">
         <el-table-column
@@ -50,6 +53,7 @@
 
 <script>
     import request from "../../utils/request";
+    import E from "wangeditor";
 
     export default {
         name: "Problem",
@@ -81,6 +85,10 @@
                 })
             },
 
+            goBack() {
+                this.$router.push('/stuLay/proList');
+            },
+
             handleSizeChange(val) {
                 // console.log(`每页 ${val} 条`);
             },
@@ -96,6 +104,8 @@
             showProDetail(row,column,event,cell){
                 // console.log(row);
                 if (column.property === "title"){
+                    // console.log(row.uuid)
+                    sessionStorage.setItem("proId",row.id)
                     this.$router.push("/proLay/proDel")
                 }
             },

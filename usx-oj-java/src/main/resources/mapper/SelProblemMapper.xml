@@ -24,4 +24,11 @@
     <select id="isExist" resultType="SelproblemProblemlist">
         select * from selproblem_problemlist where #{selProblemUuid} = selproblem_uuid and #{problemListUuid} = problem_list_uuid
     </select>
+
+    <select id="findSelProDetailByProblemList" resultType="SelProblem">
+        select s.id, s.title, s.option_a, s.option_b, s.option_c, s.option_d, s.mark, s.answer
+        from selproblem s, selproblem_problemlist sp
+        where #{problemListUuid} = sp.problem_list_uuid
+        and sp.selproblem_uuid = s.uuid
+    </select>
 </mapper>

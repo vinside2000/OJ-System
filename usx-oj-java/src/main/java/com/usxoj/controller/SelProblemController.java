@@ -12,6 +12,7 @@ import com.usxoj.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,14 +29,20 @@ public class SelProblemController {
     @Autowired
     private SelProblemService selProblemService;
 
-    //根据题集查询
+    //根据题集分页条件查询
     @GetMapping
-    public Result<?> findProblemByProblemListInpage(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result<?> findSelProblemByProblemListInPage(@RequestParam(defaultValue = "1") Integer pageNum,
                                                     @RequestParam(defaultValue = "10") Integer pageSize,
                                                     @RequestParam(defaultValue = "") String search,
                                                     @RequestParam(defaultValue = "") String problemListUuid,
                                                     @RequestParam String courseUuid){
         return Result.success(selProblemService.findProblemByProblemList(new Page<Integer>(pageNum,pageSize),courseUuid,problemListUuid,search));
+    }
+
+    //根据problemListUuid查询所有选择题
+    @GetMapping("/getSel/{problemListUuid}")
+    public Result<?> findSelProDetailByProblemList(@PathVariable String problemListUuid){
+            return Result.success(selProblemService.findSelProDetailByProblemList(problemListUuid));
     }
 
     //将题目添加到对应的题集中

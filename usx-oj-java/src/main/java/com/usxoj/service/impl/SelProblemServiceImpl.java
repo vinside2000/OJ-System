@@ -11,6 +11,8 @@ import com.usxoj.service.SelProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Description:
  * date: 2021/8/25 10:37
@@ -25,7 +27,7 @@ public class SelProblemServiceImpl extends ServiceImpl<SelProblemMapper, SelProb
     private SelProblemMapper selProblemMapper;
 
     @Override
-    public IPage<Problem> findProblemByProblemList(Page<?> page,String courseUuid, String problemListUuid, String search) {
+    public IPage<SelProblem> findProblemByProblemList(Page<?> page,String courseUuid, String problemListUuid, String search) {
         return selProblemMapper.findProblemByProblemList(page,courseUuid,problemListUuid,search);
     }
 
@@ -42,5 +44,10 @@ public class SelProblemServiceImpl extends ServiceImpl<SelProblemMapper, SelProb
     @Override
     public SelproblemProblemlist isExist(String selProblemUuid, String problemListUuid) {
         return selProblemMapper.isExist(selProblemUuid,problemListUuid);
+    }
+
+    @Override
+    public List<SelProblem> findSelProDetailByProblemList(String problemListUuid) {
+        return selProblemMapper.findSelProDetailByProblemList(problemListUuid);
     }
 }

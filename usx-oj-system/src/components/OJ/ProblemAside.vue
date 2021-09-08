@@ -7,21 +7,32 @@
                     class="el-menu-vertical-demo"
                     style="width: 400px;height: 100vh;float: left"
             >
-                <el-menu-item index="1" @click="titleGoto">
+                <el-menu-item index="1">
                     <i class="el-icon-menu"></i>
                     <template #title >题目列表</template>
                 </el-menu-item>
                 <el-divider></el-divider>
-                <el-menu-item index="2">
+                <el-menu-item index="2" @click="toProgram">
                     <i class="el-icon-document"></i>
                     <template #title>编程题</template>
                 </el-menu-item>
 <!--                <a :href="'/proLay/proDel?id='+ list.proIndex" style="text-decoration: none"  v-for="list in spanData">-->
 <!--                    <span class="tag">{{list.proIndex}}</span>-->
 <!--                </a>-->
-                <a :href="'/proLay/proDel'" style="text-decoration: none"  v-for="list in spanData">
-                    <span class="tag">{{list.proIndex}}</span>
-                </a>
+                <div>
+                    <a :href="'/proLay/proDel'" style="text-decoration: none"  v-for="count in Number(proCount)">
+                        <span class="tag">{{count}}</span>
+                    </a>
+                </div>
+                <el-menu-item style="height: 0"></el-menu-item>
+                <div style="padding-top: 50px">
+                    <el-divider></el-divider>
+                </div>
+
+                <el-menu-item index="3" @click="toSel">
+                    <i class="el-icon-document"></i>
+                    <template #title>选择题</template>
+                </el-menu-item>
             </el-menu>
         </el-col>
     </el-row>
@@ -33,14 +44,23 @@
         name: "ProblemAside",
         data(){
             return{
-                spanData:[{proIndex: '1'}],
+                proCount:'',
             }
         },
+        created() {
+            let proCount = sessionStorage.getItem("proCount");
+            this.proCount = proCount;
+        },
         methods:{
-            titleGoto() {
+            //跳转程序题
+            toProgram() {
                 this.$router.push("/proLay/problem")
             },
 
+            //跳转选择题
+            toSel(){
+                this.$router.push("/proLay/selPro")
+            },
         }
     }
 </script>

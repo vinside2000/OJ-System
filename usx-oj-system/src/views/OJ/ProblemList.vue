@@ -143,7 +143,7 @@
                 // console.log(row.uuid);
                 if (column.property === "name") {
                     sessionStorage.setItem("proListUuid",row.uuid);
-                    sessionStorage.setItem("proListName",row.name);
+                    sessionStorage.setItem("proCount",row.proCount);
                     this.$router.push("/proLay/problem");
                 }
             },

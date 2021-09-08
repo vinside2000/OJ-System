@@ -9,6 +9,8 @@ import com.usxoj.entity.SelproblemProblemlist;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Description:
  * date: 2021/8/25 10:37
@@ -20,7 +22,7 @@ import org.springframework.stereotype.Service;
 public interface SelProblemService extends IService<SelProblem> {
 
     //分页条件查询该题集下的所有题目
-    IPage<Problem> findProblemByProblemList(Page<?> page, String courseUuid, String problemListUuid, String search);
+    IPage<SelProblem> findProblemByProblemList(Page<?> page, String courseUuid, String problemListUuid, String search);
 
     //根据selProblemId删除selproblem_problemlist表里的数据，即从该题集中删除该题目
     void delete(String  selProblemUuid, String problemListUuid);
@@ -30,4 +32,7 @@ public interface SelProblemService extends IService<SelProblem> {
 
     //根据problemUuid和problemListUuid查询在中间表中是否已经存在，即该题目是否已经在该题集中
     SelproblemProblemlist isExist(String selProblemUuid, String problemListUuid);
+
+    //根据problemListUuid查询该题集下的所有选择题
+    List<SelProblem> findSelProDetailByProblemList(@Param("problemListUuid") String problemListUuid);
 }
