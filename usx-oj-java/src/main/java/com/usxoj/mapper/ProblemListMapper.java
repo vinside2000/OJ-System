@@ -19,6 +19,9 @@ public interface ProblemListMapper extends BaseMapper<ProblemList> {
     //查询该课程下所有题集
     List<ProblemList> findProblemListByCourse(String courseUuid,String search);
 
-    //查询该题集下的题目数量
+    //查询该题集下的程序题数量
     int count(String problemListUuid);
+
+    //查询该题集下的选择题数量
+    int selCount(String problemListUuid);
 }

@@ -28,4 +28,6 @@ public class ProblemList {
     private Date endDate;
     @TableField(exist = false)
     private int proCount;
+    @TableField(exist = false)
+    private int selCount;
 }

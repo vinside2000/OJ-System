@@ -39,6 +39,7 @@ public class ProblemListController {
         int size = problemLists.size();
         for (int i = 0; i < size; i++) {
             problemLists.get(i).setProCount(problemListService.count(problemLists.get(i).getUuid()));
+            problemLists.get(i).setSelCount(problemListService.selCount(problemLists.get(i).getUuid()));
         }
         return Result.success(problemLists);
     }

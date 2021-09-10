@@ -5,7 +5,7 @@
 
         <el-col :span="14">
             <p style="display: block;margin-top: 20px">我的课程</p>
-            <div class="grid-content bg-purple"  v-for="list in courseList">
+            <div class="grid-content bg-purple"  v-for="list in courseList" v-loading="loading">
                 <el-col :span="20">
                     <div @click="toProList(list.courseUuid)" style="margin-top: 20px;width: 320px;cursor: pointer;height: 250px">
                         <el-card :body-style="{ padding: '0px'}" shadow="hover">
@@ -34,10 +34,12 @@
         name: "StudentHome",
         data() {
             return {
+                loading:false,
                 courseList:[{}],
             };
         },
         created() {
+            this.loading = true;
             let stuJson = sessionStorage.getItem("student");//从session中取得当前账号的信息
             let number = JSON.parse(stuJson).number;
             // this.teacherUuid = uuid;
@@ -50,6 +52,7 @@
                 request.get("/course/stu/"+ number).then(res => {
                     console.log(res.data);
                     this.courseList = res.data;
+                    this.loading = false;
                 })
             },
             toProList(uuid){

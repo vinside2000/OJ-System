@@ -1126,7 +1126,7 @@
                                     message: '创建成功'
                                 })
                                 this.dialogFormVisible2 = false;
-                                this.loadSel();
+                                this.loadSel(this.proListUuid);
                             } else {
                                 this.$message({
                                     type: 'error',

@@ -94,7 +94,12 @@
                 </el-table-column>
                 <el-table-column
                         prop="proCount"
-                        label="试题数量"
+                        label="程序题数量"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="selCount"
+                        label="选择题数量"
                         width="150">
                 </el-table-column>
                 <el-table-column

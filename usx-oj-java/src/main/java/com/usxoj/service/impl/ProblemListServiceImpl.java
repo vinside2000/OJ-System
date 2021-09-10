@@ -31,4 +31,9 @@ public class ProblemListServiceImpl extends ServiceImpl<ProblemListMapper, Probl
     public int count(String problemListUuid) {
         return problemListMapper.count(problemListUuid);
     }
+
+    @Override
+    public int selCount(String problemListUuid) {
+        return problemListMapper.selCount(problemListUuid);
+    }
 }

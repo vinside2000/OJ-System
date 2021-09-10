@@ -17,4 +17,10 @@
     and p.uuid = pp.problem_uuid
     </select>
 
+    <select id="selCount" parameterType="string" resultType="int">
+    SELECT COUNT(s.uuid) num from selproblem s,selproblem_problemlist sp
+    WHERE sp.problem_list_uuid = #{problemListUuid}
+    and s.uuid = sp.selproblem_uuid
+    </select>
+
 </mapper>

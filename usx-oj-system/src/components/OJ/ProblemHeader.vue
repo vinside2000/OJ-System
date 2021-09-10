@@ -10,7 +10,7 @@
             <h2>绍大OJ平台</h2>
         </el-menu-item>
 
-        <el-menu-item index="2" style="margin-left: 200px" >我的题目</el-menu-item>
+        <el-menu-item index="2" style="margin-left: 200px" @click="toMyPro">我的题目</el-menu-item>
         <el-menu-item index="3" style="margin-left: 100px">我的成绩</el-menu-item>
 
         <el-submenu index="5" style="float: right;margin-right: 200px">
@@ -112,6 +112,9 @@
         methods:{
             toStuHome(){
                 this.$router.push('/stuLay')
+            },
+            toMyPro(){
+                this.$router.push('/proLay/problem')
             },
             logout(){
                 this.$router.push("/")

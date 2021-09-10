@@ -6,11 +6,10 @@
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#ffd04b">
-        <el-menu-item index="1" style="margin-left: 200px;" @click="toStuHome">
+        <el-menu-item index="2" style="margin-left: 200px;">
             <h2>绍大OJ平台</h2>
         </el-menu-item>
-        <el-menu-item index="2" style="margin-left: 100px">我的成绩</el-menu-item>
-        <el-menu-item index="3" style="margin-left: 100px">讨论</el-menu-item>
+        <el-menu-item index="1" style="margin-left: 100px"  @click="toStuHome">我的课程</el-menu-item>
         <el-submenu index="4" style="float: right;margin-right: 200px">
             <template #title>{{studentName}}</template>
 

@@ -19,16 +19,16 @@
 <!--                <a :href="'/proLay/proDel?id='+ list.proIndex" style="text-decoration: none"  v-for="list in spanData">-->
 <!--                    <span class="tag">{{list.proIndex}}</span>-->
 <!--                </a>-->
-                <div>
-                    <a :href="'/proLay/proDel'" style="text-decoration: none"  v-for="count in Number(proCount)">
-                        <span class="tag">{{count}}</span>
-                    </a>
-                </div>
-                <el-menu-item style="height: 0"></el-menu-item>
-                <div style="padding-top: 50px">
-                    <el-divider></el-divider>
-                </div>
-
+<!--                <div>-->
+<!--                    <a :href="'/proLay/proDel'" style="text-decoration: none"  v-for="count in Number(proCount)" @click="setProId">-->
+<!--                        <span class="tag">{{count}}</span>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <el-menu-item style="height: 0"></el-menu-item>-->
+<!--                <div style="padding-top: 50px">-->
+<!--                    <el-divider></el-divider>-->
+<!--                </div>-->
+                <el-divider></el-divider>
                 <el-menu-item index="3" @click="toSel">
                     <i class="el-icon-document"></i>
                     <template #title>选择题</template>
@@ -61,6 +61,11 @@
             toSel(){
                 this.$router.push("/proLay/selPro")
             },
+
+            //点击时设置session里的proId
+            setProId(){
+
+            }
         }
     }
 </script>
