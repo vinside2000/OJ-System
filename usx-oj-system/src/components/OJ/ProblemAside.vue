@@ -58,6 +58,7 @@
             },
 
             //跳转选择题
+
             toSel(){
                 this.$router.push("/proLay/selPro")
             },

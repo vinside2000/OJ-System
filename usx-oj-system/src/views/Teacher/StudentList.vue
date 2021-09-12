@@ -133,6 +133,7 @@
                 上传 .xlsx 表格文件，每一行为一个学生信息，支持多次上传文件，<el-link type="primary" href="http://localhost:9090/file/download">点击下载模板</el-link>
             </div>
 
+
         <el-upload
                 action="http://localhost:9090/file/upload"
                 multiple
@@ -318,22 +319,6 @@
             //点击上传
             submitUpload() {
                 this.$refs.upload.submit();
-                request.post("/stu/save",this.courseUuid).then(res => {
-                    if (res.code === '0'){
-                        this.$message({
-                            type: 'success',
-                            message: '上传成功'
-                        })
-                        this.dialogVisible1 = false;
-                    }else {
-                        this.$message({
-                            type: 'error',
-                            message: res.msg
-                        })
-                    }
-                    this.load();
-                })
-
             },
             //选择项发生变化时,获取选中行的值
             handleSelectionChange(val){
@@ -407,16 +392,31 @@
             },
             //文件上传成功钩子
             fileUploadSuccess(res){
-                console.log(res);
+                request.post("/stu/save",this.courseUuid).then(res => {
+                    if (res.code === '0'){
+                        this.$message({
+                            type: 'success',
+                            message: '上传成功'
+                        })
+                        this.dialogVisible1 = false;
+                    }else {
+                        this.$message({
+                            type: 'error',
+                            message: res.msg
+                        })
+                    }
+                    this.load();
+                })
+                // console.log(res);
                 this.load();
             },
             handleSizeChange(val) {
-                console.log(`每页 ${val} 条`);
+                // console.log(`每页 ${val} 条`);
                 this.pageSize=val;
                 this.load();
             },
             handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
+                // console.log(`当前页: ${val}`);
                 this.currentPage=val;
                 this.load();
             },

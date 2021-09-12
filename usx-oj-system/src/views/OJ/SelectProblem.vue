@@ -6,35 +6,36 @@
             <el-col :span="16">
 
                 <div class="grid-content bg-purple" v-for="(list, index) in showSelPro">
-                    <el-card :body-style="{ padding: '0px'}" shadow="hover" style="width: 80%;margin-left: 100px;margin-top: 20px">
-                        <div>
-                            <div style="padding: 10px;width: 90%;float: left">
-                                <h3 style="text-indent: 1em" ><a :name="autoIndex(index)"></a> {{index + 1}}.&nbsp <p style="display: inline-block;font-size: large;font-weight: normal;margin-left: -25px">{{list.title}}</p> </h3>
-                                <div style="padding-top: 20px;margin-left: 20px" :id="autoId(index)">
-                                    <div style="float: left;width: 100%" class="sel">
-                                        <span class="selOption" tabindex="1"
-                                              :class="{span_color:isTableIndex === 1 && changeColor === index}" @click="select(index,1)" >A</span>
-                                        <p>{{list.optionA}}</p>
-                                    </div>
-                                    <div style="float: left;width: 100%" class="sel">
-                                        <span class="selOption" tabindex="2"
-                                              :class="{span_color:isTableIndex === 2 && changeColor === index}" @click="select(index,2)">B</span>
-                                        <p>{{list.optionB}}</p>
-                                    </div>
-                                    <div style="float: left;width: 100%" class="sel">
-                                        <span class="selOption" tabindex="3"
-                                              :class="{span_color:isTableIndex === 3 && changeColor === index}" @click="select(index,3)">C</span>
-                                        <p>{{list.optionC}}</p>
-                                    </div>
-                                    <div style="float: left;width: 100%" class="sel">
-                                        <span class="selOption" tabindex="4"
-                                              :class="{span_color:isTableIndex === 4 && changeColor === index}" @click="select(index,4)">D</span>
-                                        <p>{{list.optionD}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </el-card>
+                    <select-problem-item :index="index" :list="list" ></select-problem-item>
+<!--                    <el-card :body-style="{ padding: '0px'}" shadow="hover" style="width: 80%;margin-left: 100px;margin-top: 20px">-->
+<!--                        <div>-->
+<!--                            <div style="padding: 10px;width: 90%;float: left">-->
+<!--                                <h3 style="text-indent: 1em" ><a :name="autoIndex(index)"></a> {{index + 1}}.&nbsp <p style="display: inline-block;font-size: large;font-weight: normal;margin-left: -25px">{{list.title}}</p> </h3>-->
+<!--                                <div style="padding-top: 20px;margin-left: 20px" :id="autoId(index)">-->
+<!--                                    <div style="float: left;width: 100%" class="sel">-->
+<!--                                        <span class="selOption" tabindex="1"-->
+<!--                                              :class="{span_color:isTableIndex === 1 && changeColor === index}" @click="select(index,1)" >A</span>-->
+<!--                                        <p>{{list.optionA}}</p>-->
+<!--                                    </div>-->
+<!--                                    <div style="float: left;width: 100%" class="sel">-->
+<!--                                        <span class="selOption" tabindex="2"-->
+<!--                                              :class="{span_color:isTableIndex === 2 && changeColor === index}" @click="select(index,2)">B</span>-->
+<!--                                        <p>{{list.optionB}}</p>-->
+<!--                                    </div>-->
+<!--                                    <div style="float: left;width: 100%" class="sel">-->
+<!--                                        <span class="selOption" tabindex="3"-->
+<!--                                              :class="{span_color:isTableIndex === 3 && changeColor === index}" @click="select(index,3)">C</span>-->
+<!--                                        <p>{{list.optionC}}</p>-->
+<!--                                    </div>-->
+<!--                                    <div style="float: left;width: 100%" class="sel">-->
+<!--                                        <span class="selOption" tabindex="4"-->
+<!--                                              :class="{span_color:isTableIndex === 4 && changeColor === index}" @click="select(index,4)">D</span>-->
+<!--                                        <p>{{list.optionD}}</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </el-card>-->
                 </div>
 
 <!--                <el-radio-group v-model="radio" size="small">-->
@@ -82,9 +83,11 @@
 
 <script>
     import request from "../../utils/request";
+    import SelectProblemItem from "../../components/OJ/SelectProblemItem";
 
     export default {
         name: "SelectProblem",
+        components: {SelectProblemItem},
         data(){
             return{
                 isTableIndex:'',
@@ -115,27 +118,27 @@
                 this.$router.push('/stuLay/proList');
             },
 
-            autoIndex:function(index){
-              index = index + 1;
-              return index
-            },
+            // autoIndex:function(index){
+            //   index = index + 1;
+            //   return index
+            // },
 
             autoHref:function(count){
               return "#" + count;
             },
 
-            //自动赋值不同的id
-            autoId:function(index){
-                index = index + 1;
-                // console.log("selOp_" + index);
-                return "selOp_" + index;
-            },
-
-            select(id,tabindex){
-                this.isTableIndex = tabindex
-                console.log(id)
-                this.changeColor = id
-            }
+            // //自动赋值不同的id
+            // autoId:function(index){
+            //     index = index + 1;
+            //     // console.log("selOp_" + index);
+            //     return "selOp_" + index;
+            // },
+            //
+            // select(id,tabindex){
+            //     this.isTableIndex = tabindex
+            //     console.log(id)
+            //     this.changeColor = id
+            // }
         }
     }
 </script>

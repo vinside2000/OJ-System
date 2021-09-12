@@ -123,10 +123,10 @@
                         <el-input v-model="updateForm.author" disabled="true"></el-input>
                     </el-form-item>
                     <el-form-item label="题集名称" prop="name" label-width="100px">
-                        <el-input v-model="updateForm.name" disabled="true"></el-input>
+                        <el-input v-model="updateForm.name"></el-input>
                     </el-form-item>
                     <el-form-item prop="startDate" label="开始日期" label-width="100px">
-                        <el-date-picker type="date" placeholder="选择开始日期" v-model="updateForm.startDate" style="width: 100%;" disabled="true"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择开始日期" v-model="updateForm.startDate" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                     <el-form-item prop="endDate" label="结束日期" label-width="100px">
                         <el-date-picker type="date" placeholder="选择结束日期" v-model="updateForm.endDate" style="width: 100%;"></el-date-picker>
