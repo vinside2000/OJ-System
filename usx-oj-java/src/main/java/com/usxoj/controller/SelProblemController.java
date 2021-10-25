@@ -1,17 +1,18 @@
 package com.usxoj.controller;
 
 import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.usxoj.entity.Problem;
-import com.usxoj.entity.ProblemProblemList;
-import com.usxoj.entity.SelProblem;
-import com.usxoj.entity.SelproblemProblemlist;
+import com.usxoj.entity.*;
 import com.usxoj.service.SelProblemService;
+import com.usxoj.service.StudentSelAnswerService;
 import com.usxoj.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,9 @@ public class SelProblemController {
 
     @Autowired
     private SelProblemService selProblemService;
+
+    @Autowired
+    private StudentSelAnswerService studentSelAnswerService;
 
     //根据题集分页条件查询
     @GetMapping
@@ -106,6 +110,39 @@ public class SelProblemController {
     @PostMapping("/update")
     public Result<?> updateById(@RequestBody SelProblem selProblem){
         selProblemService.updateById(selProblem);
+        return Result.success();
+    }
+
+    //将个人答题情况保存到数据库
+    @PostMapping("/answer")
+    public Result<?> saveAnswer(@RequestBody Map<String ,String> map){
+//        System.out.println(map);
+        String studentUuid = map.get("studentUuid");
+        String proListUuid = map.get("proListUuid");
+        String answerMap = map.get("answerMap");
+        Map<String,String> m= (Map<String, String>) JSON.parse(answerMap);
+//        System.out.println(m);
+        List<StudentSelAnswer> list = new ArrayList<>();
+        StudentSelAnswer studentSelAnswer = null;
+        for (Map.Entry<String,String> entry:m.entrySet()){
+            studentSelAnswer = new StudentSelAnswer(proListUuid,studentUuid,Integer.parseInt(entry.getKey()),entry.getValue());
+            SelProblem selProblem = selProblemService.getById(entry.getKey());
+            if (selProblem.getAnswer().equals(entry.getValue())){
+                studentSelAnswer.setMark(5);
+                studentSelAnswer.setStatus(1);
+            }else {
+                studentSelAnswer.setMark(0);
+                studentSelAnswer.setStatus(0);
+            }
+            list.add(studentSelAnswer);
+        }
+        for (StudentSelAnswer selAnswer : list) {
+            studentSelAnswerService.saveOrUpdate(selAnswer,
+                    Wrappers.<StudentSelAnswer>lambdaQuery()
+                            .eq(StudentSelAnswer::getStudentUuid,studentUuid)
+                            .eq(StudentSelAnswer::getProblemListUuid,proListUuid)
+                            .eq(StudentSelAnswer::getSelproblemId,selAnswer.getSelproblemId()));
+        }
         return Result.success();
     }
 

@@ -5,8 +5,9 @@ spring:
   datasource:
     username: vinside
     password: crj15158602785
-    #?serverTimezone=UTC解决时区的报错
-    url: jdbc:mysql://vinside1118.mysql.rds.aliyuncs.com:3306/ojdb?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+    #serverTimezone=UTC解决时区的报错
+    #rewriteBatchedStatements=true, 驱动才会帮你批量执行SQL
+    url: jdbc:mysql://vinside1118.mysql.rds.aliyuncs.com:3306/ojdb?rewriteBatchedStatements=true&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
